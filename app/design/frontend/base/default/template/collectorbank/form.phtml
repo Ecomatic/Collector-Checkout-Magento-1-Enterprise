@@ -1,0 +1,84 @@
+<fieldset class="form-list fieldset collector">
+    <?php $logoUrl = $this->getLogoUrl() ?>
+    <?php if (!empty($logoUrl)): ?>
+        <img src="<?php echo $logoUrl ?>" />
+    <?php endif;?>
+    <?php $_code=$this->getMethodCode() ?>
+    <ul id="payment_form_<?php echo $_code ?>" style="display:none">
+        <?php if($this->useCampaign()): ?>
+            <?php $campaignList = $this->getCampaignList(); ?>
+            <?php if(count($campaignList)): ?>
+                <?php if($this->getHasCompanyName()): ?>
+                <li style="display:none;" class="collector-campaigns">
+                <?php else: ?>
+                <li class="collector-campaigns">
+                <?php endif; ?>
+                    <span><?php echo $this->__('Choose campaign') ?></span>
+                    <?php echo $this->getCampaignHtmlRadio(); ?>
+                </li>
+            <?php endif; ?>
+            <?php if($_code == 'collectorbank_invoice'): ?>
+            <?php $campaignList = $this->getCampaignList(true); ?>
+            <?php if(count($campaignList)): ?>
+                <?php if($this->getHasCompanyName()): ?>
+                <li class="collector-campaigns-business">
+                <?php else: ?>
+                <li class="collector-campaigns-business" style="display:none;">
+                <?php endif; ?>
+                    <span><?php echo $this->__('Choose campaign'); ?></span>
+                    <?php echo $this->getCampaignHtmlRadio(true); ?>
+            <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if($this->getHasCompanyName() && $_code == 'collectorbank_invoice'): ?>
+        <li class="collector-info-private" style="display:none;">
+        <?php else: ?>
+        <li class="collector-info-private">
+        <?php endif; ?>           
+        </li>
+        <?php if($_code == 'collectorbank_invoice'): ?>
+            <?php if($this->getHasCompanyName()): ?>
+        <li class="collector-info-business">
+            <?php else: ?>
+        <li style="display:none;" class="collector-info-business">
+            <?php endif; ?>           
+        </li>
+        <?php endif;?>
+        
+    </ul>
+<!-- Handles toggling of business/private agreement terms -->
+<script type="text/javascript">
+    $$('input#billing\\:company').invoke('observe', 'change', function(event) {
+        if(this.value.length > 0) {
+            $$('li.collector-info-private').invoke('hide');
+            $$('li.collector-info-business').invoke('show');
+            $$('span.collector-checkbox-private').invoke('hide');
+            $$('span.collector-checkbox-business').invoke('show');
+            $$('li.collector-campaigns input[type="radio"]:checked').each(function(c) {
+                $(c).checked = false;
+            });
+            $$('li.collector-campaigns').invoke('hide');
+            $$('li.collector-campaigns-business').invoke('show');
+            $$('span.collector-ssn-company').invoke('show');
+            $$('span.collector-ssn-private').invoke('hide');
+            $$('span.collector-ssn-example').invoke('hide');
+        }
+        else {
+            $$('li.collector-info-private').invoke('show');
+            $$('li.collector-info-business').invoke('hide');
+            $$('span.collector-checkbox-private').invoke('show');
+            $$('span.collector-checkbox-business').invoke('hide');
+
+            $$('li.collector-campaigns').invoke('show');
+            $$('li.collector-campaigns-business input[type="radio"]:checked').each(function(c) {
+                $(c).checked = false;
+            });
+            $$('li.collector-campaigns-business').invoke('hide');
+            $$('span.collector-ssn-company').invoke('hide');
+            $$('span.collector-ssn-private').invoke('show');
+            $$('span.collector-ssn-example').invoke('show');
+        }
+    });
+</script>
+</fieldset>

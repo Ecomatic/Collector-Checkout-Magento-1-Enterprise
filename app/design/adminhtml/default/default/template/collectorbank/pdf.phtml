@@ -1,0 +1,8 @@
+<?php if(Mage::getSingleton('adminhtml/session')->getData('collector_invoice_url')): ?>
+    <div class="collector-order-view">
+        <div class="collector-pdf-link">
+            <?php echo $this->__('Download or print the PDF invoice created by Collector') ?>: <a target="_blank" href="<?php echo Mage::getSingleton('adminhtml/session')->getData('collector_invoice_url') ?>"><?php echo $this->__('View') ?></a>
+        </div>
+    </div>
+    <?php Mage::getSingleton('adminhtml/session')->unsCollectorInvoiceUrl(); ?>
+<?php endif; ?>

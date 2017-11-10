@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addCss">
+                <script>css/gebork/collectorbank.css</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="collectorbank_pdf" before="sales_order_edit" template="collectorbank/pdf.phtml" />
+        </reference>
+
+        <reference name="order_totals">
+            <block name="collectorbank_invoice_fee" type="collectorbank/order_fee" before="tax" />
+        </reference>
+    </adminhtml_sales_order_view>
+
+    <adminhtml_sales_order_invoice_view>
+        <reference name="invoice_totals">
+            <block name="collectorbank_invoice_fee" type="collectorbank/invoice_fee" before="tax" />
+        </reference>
+    </adminhtml_sales_order_invoice_view>
+
+    <adminhtml_sales_order_invoice_new>
+        <reference name="invoice_totals">
+            <block name="collectorbank_invoice_fee" type="collectorbank/invoice_fee" before="tax" />
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+
+    <adminhtml_sales_order_invoice_updateqty>
+        <reference name="invoice_totals">
+            <block name="collectorbank_invoice_fee" type="collectorbank/invoice_fee" before="tax" />
+        </reference>
+    </adminhtml_sales_order_invoice_updateqty>
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="creditmemo_totals">
+            <block name="collectorbank_invoice_fee" type="collectorbank/creditmemo_fee" before="tax" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+    
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="creditmemo_totals">
+            <block name="collectorbank_invoice_fee" type="collectorbank/creditmemo_fee" before="tax" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="creditmemo_totals">
+            <block name="collectorbank_invoice_fee" type="collectorbank/creditmemo_fee" before="tax" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
+    
+    <adminhtml_sales_order_create_index>
+        <reference name="billing_method">
+            <block type="collectorbank/adminhtml_order_create_billing_method_form" template="collectorbank/order/create/billing/method/form.phtml" name="form" />
+        </reference>
+    </adminhtml_sales_order_create_index>
+
+    <adminhtml_sales_order_create_load_block_billing_method>
+        <reference name="billing_method">
+            <block type="collectorbank/adminhtml_order_create_billing_method_form" template="collectorbank/order/create/billing/method/form.phtml" name="form" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_billing_method>
+	
+    <!-- <adminhtml_sales_order_view>
+        <reference name="order_info">
+            <action method="setTemplate"><template>collectorbank/sales/order/view/info.phtml</template></action>
+        </reference>
+		
+		 <reference name="order_tab_info">
+            <action method="setTemplate"><template>collectorbank/sales/order/view/tab/info.phtml</template></action>
+        </reference>
+		 
+    </adminhtml_sales_order_view>
+ -->
+    
+</layout>

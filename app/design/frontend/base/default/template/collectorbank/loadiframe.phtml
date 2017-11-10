@@ -1,0 +1,24 @@
+<?php 
+		
+$publicToken = $this->getPublicTokeniFrame();
+
+$language = $this->getLanguage();
+
+$dataVariant = $this->getVarient();
+
+	
+if($publicToken){ ?>
+	<div class='checkout-iframe'>
+		<script type='text/javascript'>
+			var publicToken = '<?php echo $publicToken;?>';
+		</script>
+		<script id='fixme' data-lang='<?php echo $language;?>' data-token='<?php echo $publicToken;?>' src='<?php echo $this->getIframeSrc();?>' <?php echo $dataVariant;?>></script>		
+	</div>
+<?php } else { ?>
+	<div class="checkout-iframe">
+		<?php echo $this->__("Collector Checkout is not available. Please try later!");
+		Mage::log('Public token is missing.Please check configuraton', null,'cartiframe.log');?>
+	</div>
+<?php }   ?>
+
+

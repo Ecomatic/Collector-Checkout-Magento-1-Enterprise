@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Gebork_Ajax>
+      <version>0.1.0</version>
+    </Gebork_Ajax>
+  </modules>
+  <frontend>
+    <routers>
+      <ajax>
+        <use>standard</use>
+          <args>
+            <module>Gebork_Ajax</module>
+            <frontName>ajax</frontName>
+          </args>
+      </ajax>
+	  
+		<checkout >
+			 <args>
+				  <modules>
+					<Gebork_Ajax before="Mage_Checkout" >Gebork_Ajax</Gebork_Ajax>
+				  </modules>
+			</args>
+		</checkout>
+    </routers>
+		<layout>
+		  <updates>
+			<ajax>
+			  <file>collectorbank_ajax.xml</file>
+			</ajax>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+    <helpers>
+      <ajax>
+        <class>Gebork_Ajax_Helper</class>
+      </ajax>
+    </helpers>
+	<blocks>
+	  <ajax>
+		<class>Gebork_Ajax_Block</class>
+	  </ajax>
+	    <checkout>
+			<rewrite>
+				<cart>Gebork_Ajax_Block_Ajaxcheckoutcart</cart>
+			</rewrite>
+		</checkout>
+	</blocks>
+  </global>
+</config> 

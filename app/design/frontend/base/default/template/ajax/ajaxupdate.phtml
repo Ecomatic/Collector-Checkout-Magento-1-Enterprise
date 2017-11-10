@@ -1,0 +1,14 @@
+<script type="text/javascript">
+ var url_topcart = "<?php echo $this->getUrl('ajax/ajax/headercart');?>";
+</script>
+<div class="addtocart_popup" id="addtocart_popup" style="position:absolute;display:none;">
+	<div class="popup-text"></div>
+	<div class="popup-buttons" >
+		<div style="float:left;padding: 5px;">
+			<button onclick="jQuery.fancybox.close();" class="button btn-shop" title="Continue Shopping" type="button"><span><span>Continue Shopping</span></span></button>
+		</div>
+		<div style="float:right;padding: 5px;">
+			<button onclick="setLocation('<?php echo $this->getUrl('checkout/cart');?>');" class="button btn-shop" title="Proceed to Checkout" type="button"><span><span>View cart & checkout</span></span></button>
+		</div>
+	</div>
+</div>

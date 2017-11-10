@@ -1,0 +1,108 @@
+<div class="shipping">
+<h2><?php echo $this->__('Shipping Method') ?></h2>
+<div class="shipping-form">
+ <?php 
+ $estimateupdate_url = $this->getUrl('ajax/ajax/estimateUpdatePost');?>
+
+    <?php if (($_shippingRateGroups = $this->getEstimateRates())): ?>
+    <form action="javascript:void(0)" id="co-shipping-method-form" >
+        <!-- <dl class="sp-methods">
+            <?php foreach ($_shippingRateGroups as $code => $_rates): ?>
+                <dt><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
+                <dd>
+                    <ul>
+                    <?php foreach ($_rates as $_rate): ?>
+                        <li<?php if ($_rate->getErrorMessage()) echo ' class="error-msg"';?>>
+                           <?php if ($_rate->getErrorMessage()): ?>
+                                <?php echo $this->escapeHtml($_rate->getErrorMessage()) ?>
+                           <?php else: ?>
+                                <input onclick="estimateUpdate('<?php echo $estimateupdate_url; ?>')" id="estimate_method" name="estimate_method" type="radio" value="<?php echo $this->escapeHtml($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" />
+                                <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                                <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                                <?php echo $_excl; ?>
+                                <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                    (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                                <?php endif; ?>
+                                </label>
+                           <?php endif ?>
+                        </li>
+                    <?php endforeach; ?>
+                    </ul>
+                </dd>
+            <?php endforeach; ?>
+        </dl> -->
+        <div  class="sp-methods">
+            <?php foreach ($_shippingRateGroups as $code => $_rates): ?>
+                <!-- <div><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></div> -->
+                
+                    <?php foreach ($_rates as $_rate): ?>
+                        <div class="sp-methods-row <?php if ($_rate->getErrorMessage()) echo ' error-msg"';?>">
+                           <?php if ($_rate->getErrorMessage()): ?>
+                                <?php echo $this->escapeHtml($_rate->getErrorMessage()) ?>
+                           <?php else: ?>
+                                <input onclick="estimateUpdate('<?php echo $estimateupdate_url; ?>')" id="estimate_method" name="estimate_method" type="radio" value="<?php echo $this->escapeHtml($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" />
+                                <label><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></label>
+                                <label class="carrier-method" for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                                <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                                <?php echo $_excl; ?>
+                                <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                    (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                                <?php endif; ?>
+                                </label>
+                                <!-- <span>(1-3 dagar)</span> -->
+                           <?php endif ?>
+                        </div>
+                    <?php endforeach; ?>
+                
+            <?php endforeach; ?>
+        </div>    
+            
+			 <?php echo $this->getBlockHtml('formkey'); ?>
+	</form>
+    <?php endif; ?>
+	
+</div>
+
+
+<script type="text/javascript">
+	function estimateUpdate(estimateupdate_url)
+	 {
+		jQuery('#ajax_loader_estimate_update').show();
+		jQuery.ajax({
+				   type: 'post',
+				   url: estimateupdate_url,
+				   dataType:'json',
+				   data: jQuery('form').serialize(),
+				   beforeSend: function() {
+						// Suspend the Checkout, showing a spinner...
+						window.collector.checkout.api.suspend();
+					},
+				   success: function(data)
+					{
+						var result =  data;
+						jQuery('#ajax_loader_estimate_update').hide();
+						data_estimate_update_total = jQuery(result).find('div.totals').html();
+							jQuery('div.totals').html(data_estimate_update_total);
+						
+						if(data.cart_content_ajax){
+							jQuery('div.cart').replaceWith(data.cart_content_ajax);
+						} 
+						
+						
+					},
+					complete: function() {
+						// ... and finally resume the Checkout after the backend call is completed to update the checkout
+						window.collector.checkout.api.resume();
+					},
+		});
+	 }
+</script>
+</div>
+<span id='ajax_loader_estimate_update' style='display:none'><img src="<?php echo $this->getSkinUrl('images/collectorbank_ajax/ajax_loader.gif')?>" /></span>
+
+<!-- for showing gift options -->
+<?php /*<div id="onepage-checkout-shipping-method-additional-load">
+<?php echo $this->getLayout()->createBlock('checkout/onepage_shipping_method_additional')->setTemplate('checkout/onepage/shipping_method/additional.phtml')->toHtml(); ?>
+</div>*/?>

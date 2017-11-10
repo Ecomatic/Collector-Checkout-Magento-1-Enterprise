@@ -1,0 +1,79 @@
+<?php $logoUrl = $this->getLogoUrl(); ?>
+<p>
+<?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?>
+<?php if (!empty($logoUrl)): ?>
+  <br />
+  <img alt="logo" src="<?php echo $logoUrl; ?>" />
+<?php endif;?>
+</p>
+
+<?php
+   //echo get_class($this);
+   $order = $this->getInfo()->getOrder();
+   $payment = $order->getPayment();
+   $purchaseData = json_decode($payment->getCollPaymentDetails(),true); 
+   //echo "<pre>";print_r($purchaseData);echo "</pre>";
+
+?>
+						
+<?php if ($_specificInfo = $this->getCollectorInfo()):?>
+<table class="collector-payment-info">
+    <tbody>
+        <tr>
+            <th><?php echo $this->escapeHtml($_specificInfo['invoice_no']['label']) ?>:</th>
+            <td><?php echo nl2br(implode($this->getValueAsArray($_specificInfo['invoice_no']['value'], false), "\n"))?></td>
+            <td></td>
+        </tr>
+		
+		<tr>
+			<th><?php echo $this->__('Payment Name: ') ?></th>
+			<td class="value"><?php echo $purchaseData['paymentMethod'];?></td>
+			<td></td>
+		</tr>
+		<tr>
+			<th><?php echo $this->__('Delivery Method: ') ?></th>
+			<td class="value"><?php echo $purchaseData['invoiceDeliveryMethod'];?></td>
+			<td></td>
+		</tr>
+								
+    <?php if($this->isInvoice() AND $this->getInvoiceType() != 3): ?>
+        <tr>
+            <th><?php echo $this->escapeHtml($_specificInfo['payment_reference']['label']) ?>:</th>
+            <td><?php echo nl2br(implode($this->getValueAsArray($_specificInfo['payment_reference']['value'], false), "\n"))?></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th><?php echo $this->escapeHtml($_specificInfo['invoice_url']['label']) ?>:</th>
+            <td><a href="<?php echo $_specificInfo['invoice_url']['value'] ?>"><?php echo $this->__('View PDF'); ?></a></td>
+            <td>
+                <form method="get" action="<?php echo $this->getResendUrl() ?>">
+                    <button title="<?php echo $this->__('Resend') ?>"
+                            type="submit"
+                            class="scalable go">
+                        <?php echo $this->__('Resend') ?>
+                    </button>
+                    <span style="cursor:pointer;" onclick="$('collector_new_email').show();"><?php echo $this->__('Use new email') ?>
+                    <input type="text" 
+                           name="collector_new_email"
+                           id="collector_new_email"
+                           style="display:none;"
+                           value="<?php echo $order?>" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th><?php echo $this->escapeHtml($_specificInfo['due_date']['label']) ?>:</th>
+            <td><?php echo nl2br(implode($this->getValueAsArray($_specificInfo['due_date']['value'], false), "\n"))?></td>
+            <td>
+                <button title="<?php echo $this->__('Extend') ?>"
+                        type="button"
+                        class="scalable go"
+                        onclick="setLocation('<?php echo $this->getExtendDueDateUrl() ?>')">
+                    <?php echo $this->__('Extend') ?>
+                </button>
+            </td>
+        </tr>
+    <?php endif; ?>
+    </tbody>
+</table>
+<?php endif;?>

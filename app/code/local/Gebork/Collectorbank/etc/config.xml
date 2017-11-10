@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gebork_Collectorbank>
+            <version>0.1.1</version>
+        </Gebork_Collectorbank>
+    </modules>
+    <frontend>
+        <routers>
+            <collectorbank>
+                <use>standard</use>
+                <args>
+                    <module>Gebork_Collectorbank</module>
+                    <frontName>collectorbank</frontName>
+                </args>
+            </collectorbank>
+        </routers>
+        <layout>
+            <updates>
+                <collectorbank>
+                    <file>collectorbank.xml</file>
+                </collectorbank>
+            </updates>
+        </layout>
+    </frontend> 
+    <admin>
+        <routers>
+            <collectorbank>
+                <use>admin</use>
+                <args>
+                    <module>Gebork_Collectorbank</module>
+                    <frontName>collectorbank</frontName>
+                </args>
+            </collectorbank>
+        </routers>
+    </admin>
+	<adminhtml>
+        <layout>
+            <updates>
+                <collectorbank>
+                    <file>collectorbank.xml</file>
+                </collectorbank>
+            </updates>
+        </layout>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <gebork_collectorbank>
+                                            <title>Collector</title>
+                                        </gebork_collectorbank>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Gebork_Collectorbank>
+                    <files>
+                        <default>Gebork_Collectorbank.csv</default>
+                    </files>
+                </Gebork_Collectorbank>
+            </modules>
+        </translate>
+    </adminhtml>
+    <global>
+		<fieldsets>
+    		 <sales_convert_quote_payment>
+    		 	<coll_payment_method>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</coll_payment_method>
+    		 	<coll_payment_details>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</coll_payment_details>
+    		 </sales_convert_quote_payment>
+			 
+			<sales_convert_quote>
+				<coll_customer_type><to_order>*</to_order></coll_customer_type>
+				<coll_business_customer><to_order>*</to_order></coll_business_customer>
+				<coll_status><to_order>*</to_order></coll_status>
+				<coll_purchase_identifier><to_order>*</to_order></coll_purchase_identifier>
+				<coll_total_amount><to_order>*</to_order></coll_total_amount>
+			</sales_convert_quote>
+			
+			<sales_convert_order>                                              
+               	<coll_customer_type><to_quote>*</to_quote></coll_customer_type>
+				<coll_business_customer><to_quote>*</to_quote></coll_business_customer>
+				<coll_status><to_quote>*</to_quote></coll_status>
+				<coll_purchase_identifier><to_quote>*</to_quote></coll_purchase_identifier>
+				<coll_total_amount><to_quote>*</to_quote></coll_total_amount>
+            </sales_convert_order>
+		
+    	</fieldsets>
+		
+		
+        <models>
+            <collectorbank>
+                <class>Gebork_Collectorbank_Model</class>
+                <resourceModel>collectorbank_mysql4</resourceModel>
+            </collectorbank>
+			<!-- <collectorbank_mysql4>
+                <class>Gebork_Collectorbank_Model_Mysql4</class>
+                <entities>
+                    <collectorbank>
+                        <table>collectorbank</table>
+                    </collectorbank>
+                </entities>
+            </collectorbank_mysql4> -->
+        </models>
+		<resources>
+            <collectorbank_setup>
+                <setup>
+                    <module>Gebork_Collectorbank</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </collectorbank_setup>
+            <collectorbank_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </collectorbank_write>
+            <collectorbank_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </collectorbank_read>
+        </resources>
+        <blocks>
+            <collectorbank>
+                <class>Gebork_Collectorbank_Block</class>
+            </collectorbank>
+        </blocks>
+        <helpers>
+            <collectorbank>
+                <class>Gebork_Collectorbank_Helper</class>
+            </collectorbank>
+        </helpers>
+		<blocks>
+		  <collectorbank>
+			<class>Gebork_Collectorbank_Block</class>
+		  </collectorbank>
+		  
+		  <!--  for rewriting magento order view form block -->
+			<!-- <adminhtml>
+				<rewrite>
+					<sales_order_view_info>Gebork_Collectorbank_Block_Sales_Order_View_Info</sales_order_view_info>
+				</rewrite>
+			</adminhtml> -->
+		</blocks>
+		
+		
+		
+		<events>
+			<controller_action_layout_load_before>
+				<observers>
+					<collectorbank_checkenabled>
+						<class>collectorbank/observer</class>
+						<method>checkEnabled</method>
+					</collectorbank_checkenabled>
+				</observers>
+			</controller_action_layout_load_before>
+			
+			<sales_quote_collect_totals_before>
+				<observers>
+					<estimated_shipping_guest>
+						<class>collectorbank/observer</class>
+						<method>handleCollect</method>
+					</estimated_shipping_guest>
+				</observers>
+			</sales_quote_collect_totals_before>
+			
+			
+			<orderpreparation_before_capture_invoice>
+              <observers>
+                <gebork_collectorbank_invoice>
+                  <type>singelton</type>
+                  <class>collectorbank/observer</class>
+                  <method>embeddedERPOrderpreparationBeforeCaptureInvoice</method>
+                </gebork_collectorbank_invoice>
+              </observers>
+            </orderpreparation_before_capture_invoice>
+			
+			<order_cancel_after>
+                <observers>
+                    <gebork_collectorbank_cancel_order>
+                        <type>singleton</type>
+                        <class>collectorbank/observer</class>
+                        <method>order_cancel_after</method>
+                    </gebork_collectorbank_cancel_order>
+                </observers>
+            </order_cancel_after>
+			
+		</events>
+	
+	
+    </global>
+    <default>
+        <payment>
+           <!--  <collectorpay>
+                <active>1</active>
+                <model>collectorbank/collectorpay</model>
+                <title>Collector Payment</title>
+            </collectorpay> -->
+			<collectorbank_invoice><!-- payment method name-->
+                <active>0</active>
+                <model>Gebork_Collectorbank_Model_Collectorbank_Invoice</model>
+                <payment_action>authorize</payment_action>
+                <collector_logo>black</collector_logo>
+                <order_status>collector</order_status>
+                <allowspecific>1</allowspecific>
+                <specificcountry>NO,SE</specificcountry>
+                <allow_credit>0</allow_credit>
+                <separate_address>0</separate_address>
+				<shippingmethod>flatrate_flatrate</shippingmethod>
+            </collectorbank_invoice>
+         </payment>
+    </default>
+</config>

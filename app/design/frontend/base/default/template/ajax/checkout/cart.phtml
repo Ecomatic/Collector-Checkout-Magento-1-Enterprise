@@ -1,0 +1,170 @@
+<div class="cart">
+    <div class="cart-top-section">
+        <div class="page-title title-buttons">
+            <h1><?php echo $this->__('Shopping Cart') ?></h1>
+    		<div id="businesstypes" style="float:right;">
+    			<a class="btype" id="b2c"><?php echo $this->__('Privat');?></a> | <a class="btype" id="b2b"><?php echo $this->__('Företag');?></a>
+    		</div>            
+        </div>
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <?php echo $this->getChildHtml('form_before') ?>
+       
+    	 <form action="javascript:void(0)" method="post">
+    		 <?php echo $this->getBlockHtml('formkey'); ?>
+            
+                <table id="shopping-cart-table" class="data-table cart-table">
+                    <col width="1" />
+                    <col />
+                    <col width="1" />
+                <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
+                    <col width="1" />
+                <?php endif ?>
+                <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                    <col width="1" />
+                <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                    <col width="1" />
+
+                <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                    <thead>
+                        <tr>
+                            <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+                            <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>                          
+                            <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
+                            <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Price') ?></th>
+                           
+                        </tr>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                        <tr>
+                            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                        </tr>
+                        <?php endif; ?>
+                    </thead>
+                   
+                    <tbody>
+                    <?php foreach($this->getItems() as $_item): ?>
+                        <?php echo $this->getItemHtml($_item) ?>
+                    <?php endforeach ?>
+                    </tbody>
+                </table>
+                <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+            
+        </form>
+    	
+        <div class="cart-forms cart-collaterals">
+            <div class="col2-set">
+               
+                    <?php /* Extensions placeholder */ ?>
+                    <?php echo $this->getChildHtml('checkout.cart.extra') ?>
+                    <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
+               
+            </div>
+            <div class="totals cart-totals">
+                <?php echo $this->getChildHtml('totals'); ?>
+                <?php if(!$this->hasError()): ?>
+                <ul class="checkout-types">
+                <?php foreach ($this->getMethods('methods') as $method): ?>
+                    <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
+                    <li><?php echo $methodHtml; ?></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+            </div>
+    		<div class="discountcoupon">
+    			<?php echo $this->getChildHtml('coupon') ?>
+    		</div>
+        </div>
+	</div>
+	
+	<?php echo $this->getChildHtml('loadiframe'); ?>  
+    <?php echo $this->getChildHtml('crosssell') ?>
+
+	
+	<script type="text/javascript">
+	  var url_update_shoopingcart = '<?php echo $this->getUrl("checkout/cart/updatePost") ?>';
+	  var url_topcart = "<?php echo $this->getUrl('ajax/ajax/headercart'); ?>";
+	  var image = "<?php echo $this->getSkinUrl('images/collectorbank_ajax/ajax_loader.gif'); ?>";
+	  
+	  
+	jQuery(document).ready(function() {
+		
+		jQuery("#businesstypes a").click(function(e) {
+			e.preventDefault();
+			var ctype = jQuery(this).attr('id');
+			showcartloading();
+			jQuery.ajax({
+				url:'<?php echo $this->getUrl('ajax/ajax/loadiframe');?>',
+				type:'POST',
+				dataType: 'json',
+				data: {
+					ctype: ctype,
+				},
+				success:function(data)
+				{
+				  var result = data;
+				    if(data.cart_content_ajax){
+						jQuery('div.cart').replaceWith(data.cart_content_ajax);
+					}
+					jQuery( "#"+ctype ).addClass("active");
+					jQuery("#pro-loading").remove();
+					jQuery("#pro-img").remove();
+				}
+			});
+		});
+		
+				
+		var giftcardhref = jQuery("#shopping-cart-totals-table .btn-remove").attr('href');		
+		if(giftcardhref){
+			var ajaxurl = giftcardhref.replace('giftcard/cart/remove', 'ajax/ajax/removegiftcard');
+			jQuery("#shopping-cart-totals-table .btn-remove").on("click",function(){		
+				if(giftcardhref.search('giftcard/cart/remove') != -1 ){ 				
+					jQuery("#shopping-cart-totals-table .btn-remove").removeAttr("href");
+					var parts = ajaxurl.split("/");
+					var code = parts[parts.length-2];
+					
+					showcartloading();
+					jQuery.ajax({
+							   type: 'post',
+							   url: ajaxurl,
+							   dataType:'json',
+							   data: {'code':code},
+							   beforeSend: function() {								
+									window.collector.checkout.api.suspend();
+								},
+							   success: function(data)
+								{
+									var result =  data;								
+									data_estimate_update_total = jQuery(result).find('div.totals').html();
+									jQuery('div.totals').html(data_estimate_update_total);				
+										
+									if(data.cart_content_ajax){
+									jQuery('div.cart').replaceWith(data.cart_content_ajax);
+									} 
+								},
+								complete: function() {								
+									window.collector.checkout.api.resume();
+								},
+					});
+			    } 
+			});
+		}
+	
+	});
+
+	</script>
+	
+</div>
+

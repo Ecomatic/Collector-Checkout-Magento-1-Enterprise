@@ -1,0 +1,20 @@
+<?php $logoUrl = $this->getLogoUrl(); ?>
+<p>
+<?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?>
+<?php if (!empty($logoUrl)): ?>
+  <br />
+  <img alt="logo" src="<?php echo $logoUrl; ?>" />
+<?php endif;?>
+</p>
+<?php if ($_specificInfo = $this->getSpecificInformation()):?>
+<table>
+    <tbody>
+    <?php foreach ($_specificInfo as $_label => $_value):?>
+        <tr>
+            <th><?php echo $this->escapeHtml($_label)?>: </th>
+            <td><?php echo nl2br(implode($this->getValueAsArray($_value, false), "\n"))?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endif;?>

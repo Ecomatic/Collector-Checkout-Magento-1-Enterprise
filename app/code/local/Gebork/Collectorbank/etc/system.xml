@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<tabs>
+       <gebork translate="label" module="collectorbank">
+           <label>Gebork</label>
+           <sort_order>300</sort_order>
+       </gebork>
+   </tabs>
+   <sections>
+        <payment>
+            <groups>
+             	<collectorbank_invoice translate="label" module="collectorbank">
+                    <label>Collectorbank Invoice</label>
+                    <sort_order>1010</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <collector_logo translate="label">
+                            <label>Logo</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_logo</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </collector_logo>
+                        <order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_orderstatus</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[New order status after authorization approved.]]></comment>
+                        </order_status>
+                        <shippingmethod>
+                            <label>Default selected shipping method  (iFrame)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_defaultshippingmethods</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shippingmethod>
+						<specificcountry translate="label">
+                            <label>Payment from Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>6</sort_order>
+                            <source_model>collectorbank/source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificcountry> 
+						<use_campaign translate="label">
+                            <label>Use Campaign (for business customers)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_campaign>
+                        <show_no_campaign translate="label">
+                            <label>Show "No campaign" option</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <use_campaign>1</use_campaign>
+                            </depends>
+                        </show_no_campaign> 
+                        <no_campaign_label translate="label">
+                            <label>"No campaign" label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <show_no_campaign>1</show_no_campaign>
+                            </depends>
+                        </no_campaign_label> 
+						<campaign_list_company translate="label">
+                            <label>Campaign List (business)</label>
+                            <frontend_model>collectorbank/adminhtml_form_field_campaign</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </campaign_list_company>
+                        <allow_credit translate="label">
+                            <label>Allow gift card, store credit and reward point</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[If gift card, store credit or reward point is used on a Collector invoice, the Magento order can only be fully invoced/captured.]]></comment>
+                        </allow_credit>
+                        <separate_address translate="label">
+                            <label>Separate billing- and shipping for private customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Send separate billing- and shipping address. <br /><span style="color:#a00"><b>Must be agreed upon with Collector</b>. If enabled, merchant takes full responsibility for shipping management as well as all fraud risk.</span>]]></comment>
+                        </separate_address>
+                        <separate_address_company translate="label">
+                            <label>Separate billing- and shipping for business customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Send separate billing- and shipping address. <br /><span style="color:#a00"><b>Must be agreed upon with Collector</b>. If enabled, merchant takes full responsibility for shipping management as well as all fraud risk.</span>]]></comment>
+                        </separate_address_company>
+                        <sort_order translate="label">
+                            <label>Sort order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Select sorting order og payment method.]]></comment>
+                        </sort_order>
+						<terms_url translate="label">
+							<label>Terms URL (iFrame)</label>
+							<comment><![CDATA[Relative to Website Base URL]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>15</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</terms_url> 
+						<default_checkout translate="label">
+							<label>Show links for default Checkout (iFrame)</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>16</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</default_checkout>
+						<show_newsletter translate="label">
+							<label>Show newsletter subscription checkbox (iFrame)</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>17</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</show_newsletter>
+						
+                    </fields>
+                </collectorbank_invoice>
+            </groups>
+        </payment>
+        <gebork_collectorbank translate="label" module="collectorbank">
+            <label>Collector Bank</label>
+            <tab>gebork</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>                
+                <settings_b2b translate="label">
+                    <label>iFrame Settings B2B</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>                       
+                        <merchantid translate="label">
+                            <label>Merchant ID B2B</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>111</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchantid>
+                        <secretkey translate="label">
+                            <label>Secret Key B2B</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>112</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </secretkey>
+						<storeid>
+                            <label>Store Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>113</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </storeid>						
+                    </fields>
+                </settings_b2b>
+                <settings_b2c translate="label">
+                    <label>iFrame Settings B2C</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>                       
+                        <merchantid translate="label">
+                            <label>Merchant ID B2C</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>111</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchantid>
+                        <secretkey translate="label">
+                            <label>Secret Key B2C</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>112</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </secretkey>
+						<storeid>
+                            <label>Store Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>113</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </storeid>						
+                    </fields>
+                </settings_b2c>
+				<settings translate="label">
+                    <label>Settings for Invoice</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                       <api_username>
+                            <label>API Username</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_username>
+                       <api_password>
+                            <label>API Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_password>
+                        <store_id_private>
+                            <label>Store Id for private customers</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </store_id_private>
+                        <store_id_company>
+                            <label>Store Id for business customers</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </store_id_company>
+                        <agreement_code>
+                            <label>Agreement Code</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </agreement_code>
+                        <sandbox_mode>
+                            <label>Test mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sandbox_mode>
+                    </fields>
+                </settings>
+                <invoice translate="label">
+                    <label>Invoice Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <customer_type translate="label comment">
+                            <label>Customer types</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_customertype</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customer_type>
+                        <invoice_method>
+                            <label>Invoice Delivered By</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_invoicemethod</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_method>
+                        <delivery_method_merchant>
+                            <label>Delivery Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_deliverymethodmerchant</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <invoice_method>0</invoice_method>
+                            </depends>
+                        </delivery_method_merchant>
+                        <delivery_method_collector>
+                            <label>Delivery Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_deliverymethodcollector</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <invoice_method>1</invoice_method>
+                            </depends>
+                        </delivery_method_collector>
+                        <invoice_fee>
+                            <label>Invoice Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_fee>
+                        <invoice_fee_tax_class translate="label">
+                            <label>Invoice Fee Tax Class</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_shipping_taxclass</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_fee_tax_class>
+                        <invoice_fee_company>
+                            <label>Invoice Fee for business customers</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_fee_company>
+                        <invoice_fee_company_tax_class translate="label">
+                            <label>Invoice Fee Tax Class for business customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_shipping_taxclass</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_fee_company_tax_class>
+                        <reference_field translate="label">
+                            <label>Reference field for business customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>collectorbank/source_referencefield</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Determines what data is sent to Collector as the reference for business customers. Does not apply to private customers.</comment>
+                        </reference_field>
+                        <custom_reference translate="label">
+                            <label>Custom reference field name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <reference_field>custom</reference_field>
+                            </depends>
+                            <comment>Name of billing address field to use for reference</comment>
+                        </custom_reference>
+                        <info_text translate="label">
+                            <label>Info Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </info_text>
+                        <info_text_company translate="label">
+                            <label>Info Text for business customers</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </info_text_company>
+                    </fields>
+                </invoice>
+            </groups>
+        </gebork_collectorbank>
+    </sections>
+</config>
