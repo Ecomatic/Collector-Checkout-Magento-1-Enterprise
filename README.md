@@ -1,5 +1,5 @@
-# Collector-Checkout-Magento-1
-Collector Checkout for Magento 1
+# Collector-Checkout-Magento-1-Enterprise
+Collector Checkout for Magento 1 Enterprise
 
 
 ## Settings
