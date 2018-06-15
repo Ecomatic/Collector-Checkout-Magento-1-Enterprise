@@ -6,15 +6,6 @@
         </Gebork_Collectorbank>
     </modules>
     <frontend>
-        <routers>
-            <collectorbank>
-                <use>standard</use>
-                <args>
-                    <module>Gebork_Collectorbank</module>
-                    <frontName>collectorbank</frontName>
-                </args>
-            </collectorbank>
-        </routers>
         <layout>
             <updates>
                 <collectorbank>

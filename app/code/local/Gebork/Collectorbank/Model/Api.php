@@ -10,14 +10,14 @@ class Gebork_Collectorbank_Model_Api extends Mage_Core_Model_Abstract
 	
 	public function getRedirectPageUri(){
 		$getBaseUrl = Mage::getUrl();
-		$redirectionUrl = $getBaseUrl."collectorbank/index/success";
+		$redirectionUrl = $getBaseUrl."collectorcheckout/index/success";
 		return $redirectionUrl;
 	}
 	
 	
 	public function getBusinessRedirectPageUri(){
 		$getBaseUrl = Mage::getUrl();
-		$redirectionUrl = $getBaseUrl."collectorbank/index/bsuccess";	
+		$redirectionUrl = $getBaseUrl."collectorcheckout/index/bsuccess";	
 		return $redirectionUrl;
 	}
 	
@@ -32,7 +32,7 @@ class Gebork_Collectorbank_Model_Api extends Mage_Core_Model_Abstract
 	
 	public function getNotificationUri(){
 		$getBaseUrl = Mage::getUrl();
-		$notifyUrl = $getBaseUrl."collectorbank/index/notification";
+		$notifyUrl = $getBaseUrl."collectorcheckout/index/notification";
 		return $notifyUrl;
 	}
 	
